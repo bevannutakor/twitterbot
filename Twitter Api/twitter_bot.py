@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 #import bs4
 #import requests
 #import re
-import threading
 
 #base directory the file is in
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
