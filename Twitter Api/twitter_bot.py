@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 #import requests
 #import re
 
+#ENV setup
 #base directory the file is in
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
