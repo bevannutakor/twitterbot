@@ -1,0 +1,4 @@
+#use case:
+#Simple twitter bot that tweets
+#Upgrade to a twitter bot that tweets different things at a set time every day or hour
+#deploy app to a server
