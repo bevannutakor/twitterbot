@@ -1,2 +1,2 @@
 # twitterbot
-Twitter bot in python for fun - very barebones right now going to make it interesting soon
+Twitter bot in python that tweets the prices of popular crypto coins
