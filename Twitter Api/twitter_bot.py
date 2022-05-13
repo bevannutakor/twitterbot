@@ -4,6 +4,7 @@ import threading
 import time
 import random
 import requests
+from binance import Client
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
@@ -14,15 +15,14 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 #join base directory with filename
 load_dotenv(os.path.join(BASEDIR, '.env'))
 
-def search_price(coin):
-    url = "https://www.google.com/search?q="+coin+"+price"
-    get_html = requests.get(url)
-    parse = BeautifulSoup(get_html.text, 'lxml')
-    text = parse.find("div", attrs={'class':'BNeawe iBp4i AP7Wnd'}).find("div", attrs={'class':'BNeawe iBp4i AP7Wnd'}).text
+#binance setup
+def get_price(coin):
+    api_key = os.getenv('API_KEY')
+    api_secret = os.getenv('BINANCE_SECRET_KEY')
 
-    print(text)
-    return text
-
+    client = Client(api_key, api_secret)
+    coin_price = client.get_symbol_ticker(symbol=coin)
+    return coin_price['price']
 
 #twitter set up
 def create_api():
@@ -45,17 +45,12 @@ def create_api():
     except:
         print("error")
 
-#Loop works but still throws an error due to duplicate status tweet
-#Todo implement a way to tweet different things on server
-
 def tweet_price():
     api = create_api()
-    bitcoin = search_price("bitcoin")
-    litecoin = search_price("litecoin")
-    cardano = search_price("cardano")
-    doge = search_price("doge")
+    bitcoin = get_price("BTCUSDT")
+    ethereum = get_price("ETHUSDT")
     
-    tweet = "here are the prices for today: \n" + "bitcoin: " + bitcoin + "\n" + "litecoin: " + litecoin + "\n" + "cardano: " + cardano + "\n" + "doge: " + doge + "\n"
+    tweet = "here are the prices for today: \n" + "bitcoin: $" + bitcoin + "\n" + "ethereum: $" + ethereum + "\n"
 
     threading.Timer(86400.0, tweet_price).start() #tweet every 24hrs
     
@@ -64,4 +59,3 @@ def tweet_price():
     print("message has been tweeted")
 
 tweet_price()
-
